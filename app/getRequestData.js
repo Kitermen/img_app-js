@@ -19,4 +19,4 @@ const getRequestData = async (req) => {
     })
 
 }
-export default getRequestData
+export default getRequestData;
