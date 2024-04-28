@@ -1,11 +1,13 @@
 import { rejects } from "assert";
 import formidable from "formidable";
+import { existsSync, promises as fsPromises } from "fs";
 import * as fs from "fs";
-import { existsSync } from "fs";
-import { join, resolve } from "path";
+// import { existsSync } from "fs";
+import { join } from "path";
 
-const fileOperations = {
-    submitFile: async (req)=>{
+export default class JsonController {
+
+    async submitFile(req){
         return new Promise((resolve, reject)=>{
             try{
                 let form = formidable({});
@@ -15,17 +17,18 @@ const fileOperations = {
                     //fields - nazwa albumu
                     if(err)resolve(err.message);
                     else{
-                        console.log(fields);
-                        console.log(files);
                         let setFolderName = fields.album.length == 0 ? "unknown" : fields.album;
-                        let folderPath = join("./upload/", setFolderName);
+                        //console.log("SET", setFolderName);
+                        let folderPath = join("./uploads/", setFolderName);
                         if(!existsSync(folderPath)){
-                            await fs.Promises.mkdir(folderPath)
+                            //console.log(folderPath);
+                            await fsPromises.mkdir(folderPath);
                         }
+                        
                         let fileName = files.file.path.split("\\");
-                        let fullFilePath = join("./upload/", files.album, fileName);
-
-                        fs.rename(files.file.path, form.uploadDir + "/", + setFolderName);
+                        console.log(fileName);
+                        let fullFilePath = join("./uploads", setFolderName, fileName[1]);
+                        await fsPromises.rename(files.file.path, fullFilePath);
 
                         let fileData = {
                             fields: fields,
@@ -44,5 +47,3 @@ const fileOperations = {
         })
     }
 }
-
-export default fileOperations;

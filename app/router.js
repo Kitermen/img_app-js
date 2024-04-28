@@ -1,4 +1,5 @@
 import JsonController from "./jsonController.js";
+import FileController from "./fileController.js";
 import getRequestData from "./getRequestData.js";
 // import fileOperations from "./fileController.js";
 import * as fs from "fs";
@@ -7,6 +8,8 @@ import photosData from "./data/photosData.json" assert { type: 'json' };
 
 
 const jsonController = new JsonController;
+const fileController = new FileController;
+
 
 const router = async(req, res)=>{
     //      alle Photos zeigen
@@ -65,13 +68,13 @@ const router = async(req, res)=>{
 
     else if(req.url == "/api/photos" && req.method == "POST"){
         //formidable data
-        let newPhotoData = await submitFile(req);
-        console.log("new file", newPhotoData);
-
+        let newPhotoData = await fileController.submitFile(req);
+        console.log(newPhotoData);
+        return
         //final json
-        let photo = await addToJson(newPhotoData);
-        res.writeHead(201, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify(photo, null, 5));
+        // let photo = await jsonController.addToJson(newPhotoData);
+        // res.writeHead(201, { 'Content-Type': 'application/json' });
+        // res.end(JSON.stringify(photo, null, 5));
     }
     
 }
