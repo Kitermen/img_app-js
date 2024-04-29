@@ -24,5 +24,26 @@
           "timestamp": 1711195850214
         }
       ]
+    },
+    {
+      "id": 1711195850999,
+      "album": "album4",
+      "originalName": "input.jpg",
+      "url": "uploads\\album4\\upload_55a0eef320974a4f966389f884f331d7.jpg",
+      "lastChange": "zmienione 2 raz",
+      "history": [
+        {
+          "status": "original",
+          "timestamp": 1711195850999
+        },
+        {
+          "status": "zmienione 1 raz",
+          "timestamp": 1711196047599
+        },
+        {
+          "status": "zmienione 2 raz",
+          "timestamp": 1711196052008
+        }
+      ]
     }
 ]
