@@ -46,20 +46,8 @@ export default class JsonController {
         return changedData;
     }
 
-    async addToJson(data) {
-        let photoData = {
-            "id": Date.now(),
-            "album": data.fields,
-            "originalName": data.originalName,
-            "url": data.filePath,
-            "lastChange": "original",
-            "history": [
-                {
-                    "status": "original",
-                    "timestamp": Date.now()
-                }
-            ]
-        }
-        return photoData;
-    }
+    // static async getPhotos(){
+    //     const jsonController = new JsonController();
+    //     return await jsonController.getPhotos();
+    // }
 }

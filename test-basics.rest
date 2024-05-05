@@ -12,7 +12,7 @@ PATCH http://localhost:3000/api/photos HTTP/1.1
 content-type: application/json
 
 {
-  "id": 1711195846479,
+  "id": 1711195846479
 }
 
 ### POST - upload 1 photo

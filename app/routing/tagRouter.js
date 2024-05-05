@@ -1,0 +1,50 @@
+import getRequestData from "../getRequestData.js";
+import TagsController from "../TagsController.js";
+
+
+const tagsController = new TagsController;
+
+
+const tagRouter = async(req, res)=>{
+    if(req.url == "/api/tags/raw" && req.method == "GET"){
+        const rawTags = await tagsController.getRawTags();
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(rawTags, null, 5));
+    }
+
+    else if(req.url == "/api/tags" && req.method == "GET"){
+        const tags = await tagsController.getTags();
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(tags, null, 5));
+    }
+
+    else if(req.url.match(/\/api\/tags\/([a-z0-9]+)/) && req.method == "GET"){
+        try{
+            const id = req.url.split("/")[3];
+            let thisTag = await tagsController.getTagById(id);
+            if(!thisTag) throw new Error("not found");
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(thisTag, null, 5));
+        }
+        catch(error){
+            res.writeHead(404, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ message: error.message }));
+        }
+    }
+
+    else if(req.method == "POST"){
+        try{
+            const name = await getRequestData(req);
+            let addedTag = await tagsController.addTag(name);
+            if(!addedTag) throw new Error("a tag with this name already exists");
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(addedTag, null, 5));
+        }
+        catch(error){
+            res.writeHead(404, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ message: error.message }));
+        }
+    }
+}
+
+export default tagRouter;

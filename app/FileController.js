@@ -1,4 +1,3 @@
-import { rejects } from "assert";
 import formidable from "formidable";
 import { existsSync, promises as fsPromises } from "fs";
 import * as fs from "fs";
@@ -7,7 +6,7 @@ import { join } from "path";
 
 export default class JsonController {
 
-    async submitFile(req){      
+    async submitFile(req){
         return new Promise((resolve, reject)=>{
             try{
                 let form = formidable({});
@@ -26,18 +25,15 @@ export default class JsonController {
                         }
                         
                         let fileName = files.file.path.split("\\");
-                        //console.log(fileName);
+                        console.log(fileName);
                         let fullFilePath = join("./uploads", setFolderName, fileName[1]);
                         await fsPromises.rename(files.file.path, fullFilePath);
 
                         let fileData = {
                             fields: fields,
-                            //folder 
                             filePath: fullFilePath,
-                            //scieżka od uploads
                             originalName: files.file.name,
-                            //input.jpg - jasne
-                            //lastModifiedDate: files.file.lastModifiedDate,
+                            lastModifiedDate: files.file.lastModifiedDate,
                         }
 
                         resolve(fileData);
