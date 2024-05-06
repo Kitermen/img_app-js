@@ -1,7 +1,9 @@
 import tagsData from "./data/tagsData.json" assert { type: 'json' };
+import photosData from "./data/photosData.json" assert { type: 'json' };
 
 export default class TagsController {
-    constructor() {
+    constructor(){
+        this.currentPhotos = [...photosData];
         this.currentTags = [...tagsData];
     }
 
@@ -33,19 +35,48 @@ export default class TagsController {
         return foundTag;
     }
 
-    async addTag(name) {
+    async addTag(name){
         name = JSON.parse(name).name; 
         const tagName = `#${name}`;
-        if (!this.currentTags.some(tag => tag == tagName)) {
+        if(!this.currentTags.some(tag => tag == tagName)){
             const obj = {
                 "id": this.currentTags.length + 1,
                 "name": tagName,
                 "popularity": Math.floor(Math.random() * 900) + 100
-            };
+            }
             //this.currentTags.push(obj);
             return obj;
         }
         return null;
+    }
+
+    async updateByTag(id){
+        id = JSON.parse(id).id; 
+        const updatedPhoto = this.currentPhotos.find(photo => {
+            if(photo.id === id){
+                photo.tags = [{ "name": "#nowytagdlazdjęcia" }];
+                return true;
+            }
+            return false;
+        })
+        return updatedPhoto;
+    }
+
+    async updateByTags(id){
+        id = JSON.parse(id).id; 
+        const updatedPhoto = this.currentPhotos.find(photo => {
+            if(photo.id === id){
+                photo.tags = [
+                    { "name": "#nowytagdlazdjęcia" },
+                    { "name": "#nowytag1dlazdjęcia" },
+                    { "name": "#nowytag2dlazdjęcia" },
+                    { "name": "#nowytag3dlazdjęcia" },
+                ]
+                return true;
+            }
+            return false;
+        })
+        return updatedPhoto;
     }
 
     async editPhotoById(data){

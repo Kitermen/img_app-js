@@ -9,18 +9,25 @@ GET http://localhost:3000/api/tags/11 HTTP/1.1
 
 ### utworzenie nowego taga
 POST http://localhost:3000/api/tags HTTP/1.1
+content-type: application/json
 
 {
   "name": "bruh"
 }
 
-### aktualizacja danych zdjęcia o nowy tag
-PATCH http://localhost:3000/api/photos/tags
-
 ### aktualizacja danych zdjęcia o tablicę nowych tag-ów
-PATCH http://localhost:3000/api/photos/tags/mass 
+PATCH http://localhost:3000/api/tags/photos/mass
+content-type: application/json
 
-### pobranie tagów danego zdjęcia
-GET http://localhost:3000/api/photos/tags/12345 
+{
+  "id": 1711195846479
+}
+
+### aktualizacja danych zdjęcia o nowy tag
+PATCH http://localhost:3000/api/tags/photos
+
+{
+  "id": 1711195846479
+}
 
 

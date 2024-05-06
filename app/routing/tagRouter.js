@@ -45,6 +45,48 @@ const tagRouter = async(req, res)=>{
             res.end(JSON.stringify({ message: error.message }));
         }
     }
+
+    else if(req.url.match(/\/api\/tags\/photos\/mass/) && req.method == "PATCH"){
+        try{
+            const id = await getRequestData(req);
+            let thisTag = await tagsController.updateByTags(id);
+            if(!thisTag) throw new Error(`could not update such a photo with many tags`);
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(thisTag, null, 5));
+        }
+        catch(error){
+            res.writeHead(404, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ message: error.message }));
+        }
+    }
+
+    else if(req.url.match(/\/api\/tags\/photos/) && req.method == "PATCH"){
+        try{
+            const id = await getRequestData(req);
+            let thisTag = await tagsController.updateByTag(id);
+            if(!thisTag) throw new Error(`could not update such a photo with a tag`);
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(thisTag, null, 5));
+        }
+        catch(error){
+            res.writeHead(404, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ message: error.message }));
+        }
+    }
+
+    else if(req.url.match(/\/api\/tags\/photos/) && req.method == "PATCH"){
+        try{
+            const id = await getRequestData(req);
+            let thisTag = await tagsController.updateByTag(id);
+            if(!thisTag) throw new Error(`could not update such a photo with a tag`);
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(thisTag, null, 5));
+        }
+        catch(error){
+            res.writeHead(404, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ message: error.message }));
+        }
+    }
 }
 
 export default tagRouter;

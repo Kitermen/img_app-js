@@ -47,7 +47,7 @@ const imageRouter = async(req, res)=>{
     }
 
     //      ein Photo nach ID aktualisieren
-    else if(req.method == "PATCH"){
+    else if(req.url.match(/\/api\/photos/) && req.method == "PATCH"){
         try{
             const newData = await getRequestData(req);
             let chgdData = await jsonController.editPhotoById(newData);
