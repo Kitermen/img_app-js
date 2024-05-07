@@ -79,23 +79,10 @@ export default class TagsController {
         return updatedPhoto;
     }
 
-    async editPhotoById(data){
-        const newData = JSON.parse(data);
-        const id = newData.id;
-        let changedData, photoData = this.idFilter(id);
-        if(!photoData.length) return null;
-        this.currentPhotos.filter(photo=>{
-            if(photo.id == id){
-                photo.lastChange = `zmienione ${photo.history.length} raz`
-                const changesInfo = {
-                    "status": `zmienione ${photo.history.length} raz`,
-                    "timestamp": Date.now(),
-                }
-                photo.history.unshift(changesInfo);
-                changedData = photo;
-            }
-        })
-        return changedData;
+    async getPhotoTags(id) {
+        id = parseInt(id);
+        const foundPhoto = this.currentPhotos.find(photo => photo.id == id);
+        return foundPhoto ? { "id": id, "tags": foundPhoto.tags } : null;
     }
 
 }

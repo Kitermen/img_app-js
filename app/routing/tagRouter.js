@@ -18,6 +18,20 @@ const tagRouter = async(req, res)=>{
         res.end(JSON.stringify(tags, null, 5));
     }
 
+    else if(req.url.match(/\/api\/tags\/photos\/([a-z0-9]+)/) && req.method == "GET"){
+        try{
+            const id = req.url.split("/")[4];
+            let thisPhotoTags = await tagsController.getPhotoTags(id);
+            if(!thisPhotoTags) throw new Error(`not founddd`);
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(thisPhotoTags, null, 5));
+        }
+        catch(error){
+            res.writeHead(404, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ message: error.message }));
+        }
+    }
+
     else if(req.url.match(/\/api\/tags\/([a-z0-9]+)/) && req.method == "GET"){
         try{
             const id = req.url.split("/")[3];
@@ -51,20 +65,6 @@ const tagRouter = async(req, res)=>{
             const id = await getRequestData(req);
             let thisTag = await tagsController.updateByTags(id);
             if(!thisTag) throw new Error(`could not update such a photo with many tags`);
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify(thisTag, null, 5));
-        }
-        catch(error){
-            res.writeHead(404, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ message: error.message }));
-        }
-    }
-
-    else if(req.url.match(/\/api\/tags\/photos/) && req.method == "PATCH"){
-        try{
-            const id = await getRequestData(req);
-            let thisTag = await tagsController.updateByTag(id);
-            if(!thisTag) throw new Error(`could not update such a photo with a tag`);
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify(thisTag, null, 5));
         }
