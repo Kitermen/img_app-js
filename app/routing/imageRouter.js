@@ -1,5 +1,5 @@
-import JsonController from "../JsonController.js";
-import FileController from "../FileController.js";
+import JsonController from "../controllers/JsonController.js";
+import FileController from "../controllers/FileController.js";
 import getRequestData from "../getRequestData.js";
 // import fileOperations from "./fileController.js";
 

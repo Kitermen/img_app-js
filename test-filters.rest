@@ -1,0 +1,16 @@
+### pobranie danych meta wybranego zdjęcia potrzebnych do jego obróbki (width,height)
+GET http://localhost:3000/api/filters/metadata/1650305869815
+
+### użycie konkretnego filtra, dane o nim przekazujemy w jsonie
+PATCH http://localhost:3000/api/filters
+
+{   
+  "id":1713264395460,
+  "lastChange":"grayscale",
+}
+
+### pobranie pliku zdjęcia (nie jsona zdjęcia) wg id
+GET http://localhost:3000/api/getimage/1681671564412
+
+### pobranie pliku przefiltrowanego zdjęcia (nie jsona zdjęcia) wg id i nazwy filtra
+GET http://localhost:3000/api/getimage/1681671564412/filter/tint
