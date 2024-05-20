@@ -1,5 +1,5 @@
 ### pobranie danych meta wybranego zdjęcia potrzebnych do jego obróbki (width,height)
-GET http://localhost:3000/api/filters/metadata/1650305869815
+GET http://localhost:3000/api/filters/metadata/1711195846469
 
 ### użycie konkretnego filtra, dane o nim przekazujemy w jsonie
 PATCH http://localhost:3000/api/filters

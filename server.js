@@ -1,7 +1,7 @@
 import http from 'http';
 import imageRouter from './app/routing/imageRouter.js';
 import tagsRouter from "./app/routing/tagsRouter.js";
-// import filtersRouter from "./app/routing/filtersRouter.js";
+import filtersRouter from "./app/routing/filtersRouter.js";
 
 const PORT = process.env.PORT || 3000;
 

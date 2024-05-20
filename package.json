@@ -6,7 +6,7 @@
   "type": "module",
   "dependencies": {
     "formidable": "^1.2.2",
-    "sharp": "^0.33.4"
+    "sharp": "^0.32.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
