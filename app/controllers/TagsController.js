@@ -7,7 +7,7 @@ export default class TagsController {
         this.currentTags = [...tagsData];
     }
 
-    formatTags() {
+    formatTags(){
         let tags = this.currentTags.map((tag, i) => {
             let obj = {
                 "id": i,
