@@ -1,7 +1,7 @@
 import tagsData from "../data/tagsData.json" assert { type: 'json' };
 import photosData from "../data/photosData.json" assert { type: 'json' };
 
-export default class TagsController {
+export default class TagsController{
     constructor(){
         this.currentPhotos = [...photosData];
         this.currentTags = [...tagsData];

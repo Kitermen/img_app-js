@@ -22,7 +22,7 @@ const filtersRouter = async(req, res)=>{
         try{
             const newData = await getRequestData(req);
             let thisPhoto = await filtersController.editPhoto(newData);
-            //if(thisPhoto) throw new Error("not found, not filtered");
+            if(!thisPhoto) throw new Error("not found, not filtered on router");
             console.log("damn", thisPhoto);
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify(thisPhoto, null, 5));

@@ -6,10 +6,12 @@ import path from "path";
 import { fileURLToPath } from 'url';
 
 
-export default class JsonController {
-    constructor() {
+export default class JsonController{
+    constructor(){
         this.currentPhotos = [...photosData];
         this.dirname = path.dirname(fileURLToPath(import.meta.url));
+        this.jsonFile = join(this.dirname, "../data/photosData.json");
+
     }
 
     idFilter(id){
@@ -30,7 +32,7 @@ export default class JsonController {
         let photoData = this.idFilter(id);
         console.log(photoData);
         if(!photoData.length) return null;
-        let filteredJson = this.currentPhotos.filter(photo=>{return photo.id != id});
+        let filteredJson = this.currentPhotos.filter(photo => {return photo.id != id});
         return filteredJson;
     }
 
@@ -39,7 +41,7 @@ export default class JsonController {
         const id = newData.id;
         let changedData, photoData = this.idFilter(id);
         if(!photoData.length) return null;
-        this.currentPhotos.filter(photo=>{
+        this.currentPhotos.filter(photo => {
             if(photo.id == id){
                 photo.lastChange = `zmienione ${photo.history.length} raz`
                 const changesInfo = {
@@ -50,13 +52,15 @@ export default class JsonController {
                 changedData = photo;
             }
         })
+
+        await fsPromises.writeFile(this.jsonFile, JSON.stringify(this.currentPhotos), "utf-8");
         return changedData;
     }
 
     async addToJson(data) {
         let photoData = {
             "id": Date.now(),
-            "album": data.fields,
+            "album": data.fields.album,
             "originalName": data.originalName,
             "url": data.filePath,
             "lastChange": "original",
@@ -68,22 +72,13 @@ export default class JsonController {
             ]
         }
 
-        //const filePath = "../data/photosData.json";
-
-        try {
-            const __dirname = this.dirname;
-            const jsonPath = join(__dirname, "../data/photosData.json");
-            
-            const photosData = await fsPromises.readFile(jsonPath, "utf-8");
+        try{        
+            const photosData = await fsPromises.readFile(this.jsonFile, "utf-8");
             
             let jsonData = JSON.parse(photosData);
-            jsonData = JSON.parse(jsonData)
-            console.log(jsonData);
-            jsonData.push(photoData);
-
-            const photosStr = JSON.stringify(photosData);
-            //console.log(photosStr);
-            await fsPromises.writeFile(jsonPath, photosStr, "utf-8")
+            jsonData.push(photoData)
+            
+            await fsPromises.writeFile(this.jsonFile, JSON.stringify(jsonData), "utf-8")
 
         } catch(error){
             console.error("An error occurred:", error.message);

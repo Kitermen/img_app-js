@@ -1,13 +1,13 @@
 ### pobranie danych meta wybranego zdjęcia potrzebnych do jego obróbki (width,height)
-GET http://localhost:3000/api/filters/metadata/1711195846469
+GET http://localhost:3000/api/filters/metadata/1716793053286
 
 ### użycie konkretnego filtra, dane o nim przekazujemy w jsonie
 PATCH http://localhost:3000/api/filters
 
-{"id":1711195846469,"lastChange":"resize"}
+{"id":1716793053286,"lastChange":"rotate"}
 
 ### pobranie pliku zdjęcia (nie jsona zdjęcia) wg ida
-GET http://localhost:3000/api/getimage/1681671564412
+GET http://localhost:3000/api/getimage/1716793053286
 
 ### pobranie pliku przefiltrowanego zdjęcia (nie jsona zdjęcia) wg id i nazwy filtra
-GET http://localhost:3000/api/getimage/1681671564412/filter/tint
+GET http://localhost:3000/api/getimage/1716793053286/filter/tint

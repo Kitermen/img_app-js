@@ -2,15 +2,15 @@ import formidable from "formidable";
 import { existsSync, promises as fsPromises } from "fs";
 import { join } from "path";
 
-export default class JsonController {
+export default class JsonController{
 
     async submitFile(req){
-        return new Promise((resolve, reject)=>{
+        return new Promise((resolve, reject) => {
             try{
                 let form = formidable({});
                 form.uploadDir = "./uploads/";
                 form.keepExtensions = true;
-                form.parse(req, async (err, fields, files)=>{
+                form.parse(req, async (err, fields, files) => {
                     //fields - nazwa albumu
                     if(err)resolve(err.message);
                     else{
@@ -26,7 +26,7 @@ export default class JsonController {
                         //console.log(fileName);
                         let fullFilePath = join("./uploads", setFolderName, fileName[1]);
                         await fsPromises.rename(files.file.path, fullFilePath);
-
+                    
                         let fileData = {
                             fields: fields,
                             filePath: fullFilePath,
