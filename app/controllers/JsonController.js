@@ -1,8 +1,15 @@
 import photosData from "../data/photosData.json" assert { type: 'json' };
+import { promises as fsPromises } from "fs";
+import { join } from "path";
+//__dirname in ES6
+import path from "path";
+import { fileURLToPath } from 'url';
+
 
 export default class JsonController {
     constructor() {
         this.currentPhotos = [...photosData];
+        this.dirname = path.dirname(fileURLToPath(import.meta.url));
     }
 
     idFilter(id){
@@ -60,11 +67,27 @@ export default class JsonController {
                 }
             ]
         }
+
+        //const filePath = "../data/photosData.json";
+
+        try {
+            const __dirname = this.dirname;
+            const jsonPath = join(__dirname, "../data/photosData.json");
+            
+            const photosData = await fsPromises.readFile(jsonPath, "utf-8");
+            
+            let jsonData = JSON.parse(photosData);
+            jsonData = JSON.parse(jsonData)
+            console.log(jsonData);
+            jsonData.push(photoData);
+
+            const photosStr = JSON.stringify(photosData);
+            //console.log(photosStr);
+            await fsPromises.writeFile(jsonPath, photosStr, "utf-8")
+
+        } catch(error){
+            console.error("An error occurred:", error.message);
+        }
         return photoData;
     }
-
-    // static async getPhotos(){
-    //     const jsonController = new JsonController();
-    //     return await jsonController.getPhotos();
-    // }
 }

@@ -4,7 +4,7 @@ GET http://localhost:3000/api/filters/metadata/1711195846469
 ### użycie konkretnego filtra, dane o nim przekazujemy w jsonie
 PATCH http://localhost:3000/api/filters
 
-{"id":1711195846469,"lastChange":"rotate"}
+{"id":1711195846469,"lastChange":"resize"}
 
 ### pobranie pliku zdjęcia (nie jsona zdjęcia) wg ida
 GET http://localhost:3000/api/getimage/1681671564412

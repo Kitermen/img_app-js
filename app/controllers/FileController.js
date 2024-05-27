@@ -23,7 +23,7 @@ export default class JsonController {
                         }
                         
                         let fileName = files.file.path.split("\\");
-                        console.log(fileName);
+                        //console.log(fileName);
                         let fullFilePath = join("./uploads", setFolderName, fileName[1]);
                         await fsPromises.rename(files.file.path, fullFilePath);
 

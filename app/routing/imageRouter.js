@@ -64,7 +64,6 @@ const imageRouter = async(req, res)=>{
     else if(req.url == "/api/photos" && req.method == "POST"){
         //formidable data
         let newPhotoData = await fileController.submitFile(req);
-        console.log(newPhotoData);
         let addedPhoto = await jsonController.addToJson(newPhotoData);
         res.writeHead(201, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(addedPhoto, null, 5));

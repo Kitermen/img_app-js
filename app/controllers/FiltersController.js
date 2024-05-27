@@ -39,7 +39,7 @@ export default class FiltersController {
                 const myFilter = data.lastChange;
 
                 const photo = this.getPhotoPath(id);
-                const photoPath = join("uploads", photo.album, "input-rotated.jpg");
+                const photoPath = join("uploads", photo.album, `input-${myFilter}.jpg`);
                 
                 if(myFilter){
                     switch (myFilter){
@@ -49,44 +49,46 @@ export default class FiltersController {
                         }
                         break;
                         case "resize":{
-                            let meta = await sharp(photoPath).resize({width: 150,height: 100}).toFile("input-resized.jpg");
+                            let meta = await sharp(photo.url).resize({width: 150, height: 100}).toFile(photoPath);
                             resolve(meta);
                         }
                         break;
                         case "reformat":{
-                            let meta = await sharp(photoPath).toFormat("png").toFile("input-reformatted.png");
+                            let meta = await sharp(photo.url).toFormat("png").toFile(photoPath);
                             resolve(meta);
                         }
                         break;
                         case "crop":{
-                            let meta = await sharp(photoPath).extract({ width: 200, height: 200, left: 20, top: 20 }).toFile("input-cropped.jpg");
+                            let meta = await sharp(photo.url).extract({ width: 200, height: 200, left: 20, top: 20 }).toFile(photoPath);
                             resolve(meta);
                         }
                         break;
                         case "grayscale":{
-                            let meta = await sharp(photoPath).grayscale().toFile("input-grayscale.jpg");
+                            let meta = await sharp(photo.url).grayscale().toFile(photoPath);
                             resolve(meta);
                         }
                         break;
-                        case "flip":
-                            meta = await sharp(findPhoto.url).fil(90).toFile("input-rotated.jpg");
-                            resolve(meta)
+                        case "flip":{
+                            meta = await sharp(photo.url).flip().toFile(photoPath);
+                            resolve(meta);
+                        }
                         break;
-                        case "flop":
-                            meta = await sharp(findPhoto.url).fil(90).toFile("input-rotated.jpg");
-                            resolve(meta)
+                        case "flop":{
+                            meta = await sharp(photo.url).flop().toFile(photoPath);
+                            resolve(meta);
+                        }
                         break;
-                        case "negate":
-                            meta = await sharp(findPhoto.url).fil(90).toFile("input-rotated.jpg");
-                            resolve(meta)
+                        case "negate":{
+                            meta = await sharp(photo.url).negate().toFile(photoPath);
+                            resolve(meta);
+                        }
                         break;
-                        case "tint":
-                            meta = await sharp(findPhoto.url).fil(90).toFile("input-rotated.jpg");
-                            resolve(meta)
+                        case "tint":{
+                            meta = await sharp(photo.url).tint({r:255,g:0,b:0}).toFile(photoPath);
+                            resolve(meta);
+                        }
                         break;
                     }
-                    let meta = await sharp(findPhoto.url).fil(90).toFile("input-rotated.jpg");
-                    resolve(meta)
                 }
                 else{
                     resolve("filter not found")
