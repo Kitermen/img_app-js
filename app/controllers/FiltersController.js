@@ -1,10 +1,13 @@
 import photosData from "../data/photosData.json" assert { type: 'json' };
+import JsonController from "../controllers/JsonController.js";
+import { readFileSync, promises as fsPromises } from "fs";
 import { join } from "path";
 import sharp from "sharp";
 //__dirname in ES6
 import path from "path";
 import { fileURLToPath } from 'url';
 
+const jsonController = new JsonController;
 
 export default class FiltersController{
     constructor(){
@@ -13,7 +16,7 @@ export default class FiltersController{
         this.jsonFile = join(this.dirname, "../data/photosData.json");
     }
 
-    getsavePath(id){
+    getPhoto(id){
         let photo = this.currentPhotos.find(photo => photo.id == id);
         return photo;
     }
@@ -22,84 +25,77 @@ export default class FiltersController{
         return new Promise(async (resolve, reject) => {
             try{
                 id = parseInt(id);
-                let findPhoto = this.getsavePath(id);
-                if(findPhoto.url){
-                    let meta = await sharp(findPhoto.url).metadata()
-                    resolve(meta)
+                const findPhoto = this.getPhoto(id);
+    
+                if(findPhoto != undefined){
+                    let meta = await sharp(findPhoto.url).metadata();
+                    resolve(meta);
                 }
                 else{
-                    resolve("url_not_found")
+                    resolve("photo & its url not found");
                 }
             }
-            catch(err){
-                reject(err.mesage)
+            catch(error){
+                reject("An error occurred:", error)
             }
         })
     }
 
     async editPhoto(data){
-        //console.log(this.currentPhotos);
         return new Promise(async (resolve, reject) => {
             try{
                 data = JSON.parse(data);
                 const id = data.id;
                 const myFilter = data.lastChange;
-                console.log("FILTR", myFilter);
-                const photo = this.getsavePath(id);
-                console.log("HMHMHMHM",photo);
-                const savePath = join("uploads", photo.album, `input-rotated.jpg`);
-                console.log(savePath);
-                console.log("FILTR", myFilter);
-                //let meta = "";
+    
+                const photo = this.getPhoto(id);
+            
+                const savePath = join("uploads", photo.album, `${(photo.url.split("\\")[2]).split(".")[0]}-${myFilter}.jpg`);
+                
+                jsonController.editPhotoById(photo, myFilter, savePath);
+                
+                let meta = "";
                 if(myFilter){
                     switch (myFilter){
                         case "rotate":{
-                            console.log("WESZLOOO");
-                            let meta = await sharp(photo.url).rotate(90).toFile(savePath);
-                            resolve(meta);
+                            meta = await sharp(photo.url).rotate(90).toFile(savePath);
                         }
                         break;
                         case "resize":{
-                            let meta = await sharp(photo.url).resize({width: 150, height: 100}).toFile(savePath);
-                            resolve(meta);
+                            meta = await sharp(photo.url).resize({width: 150, height: 100}).toFile(savePath);
                         }
                         break;
                         case "reformat":{
-                            let meta = await sharp(photo.url).toFormat("png").toFile(savePath);
-                            resolve(meta);
+                            meta = await sharp(photo.url).toFormat("png").toFile(savePath);
                         }
                         break;
                         case "crop":{
-                            let meta = await sharp(photo.url).extract({ width: 200, height: 200, left: 20, top: 20 }).toFile(savePath);
-                            resolve(meta);
+                            meta = await sharp(photo.url).extract({ width: 200, height: 200, left: 20, top: 20 }).toFile(savePath);
                         }
                         break;
                         case "grayscale":{
-                            let meta = await sharp(photo.url).grayscale().toFile(savePath);
-                            resolve(meta);
+                            meta = await sharp(photo.url).grayscale().toFile(savePath);
                         }
                         break;
                         case "flip":{
-                            let meta = await sharp(photo.url).flip().toFile(savePath);
-                            resolve(meta);
+                            meta = await sharp(photo.url).flip().toFile(savePath);
                         }
                         break;
                         case "flop":{
-                            let meta = await sharp(photo.url).flop().toFile(savePath);
-                            resolve(meta);
+                            meta = await sharp(photo.url).flop().toFile(savePath);
                         }
                         break;
                         case "negate":{
-                            let meta = await sharp(photo.url).negate().toFile(savePath);
-                            resolve(meta);
+                            meta = await sharp(photo.url).negate().toFile(savePath);
                         }
                         break;
                         case "tint":{
-                            let meta = await sharp(photo.url).tint({r:255,g:0,b:0}).toFile(savePath);
-                            resolve(meta);
+                            meta = await sharp(photo.url).tint({r:255,g:0,b:0}).toFile(savePath);
                         }
                         break;
                     }
+
+                    resolve(meta);
                 }
                 else{
                     resolve("filter not found")
@@ -110,5 +106,23 @@ export default class FiltersController{
             }
         })
 
+    }
+
+    async getOriPhoto(id){
+        return new Promise(async (resolve, reject) => {
+            try{
+                id = parseInt(id);
+                const photo = this.getPhoto(id);
+                console.log("PHOTO", photo);
+                console.log("DIRNSMR", this.dirname);
+                const photoPath = join(this.dirname, `../../uploads/${photo.album}/${photo.url.split("\\")[2]}`);
+                console.log("PHOTOPATH", photoPath);
+                const photoFile = await fsPromises.readFile(photoPath, "base64");
+                resolve(photoFile);
+            }
+            catch(error){
+                reject("An error occurred:", error)
+            }
+        })
     }
 }

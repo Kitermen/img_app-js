@@ -36,25 +36,20 @@ export default class JsonController{
         return filteredJson;
     }
 
-    async editPhotoById(data){
-        const newData = JSON.parse(data);
-        const id = newData.id;
-        let changedData, photoData = this.idFilter(id);
-        if(!photoData.length) return null;
-        this.currentPhotos.filter(photo => {
-            if(photo.id == id){
-                photo.lastChange = `zmienione ${photo.history.length} raz`
+    async editPhotoById(editedPhoto, filter, path){
+        this.currentPhotos.find(obj => {
+            if(obj.id == editedPhoto.id){
+                obj.lastChange = filter
                 const changesInfo = {
-                    "status": `zmienione ${photo.history.length} raz`,
+                    "status": filter,
                     "timestamp": Date.now(),
+                    "url": path
                 }
-                photo.history.unshift(changesInfo);
-                changedData = photo;
+                obj.history.push(changesInfo);
             }
         })
 
         await fsPromises.writeFile(this.jsonFile, JSON.stringify(this.currentPhotos), "utf-8");
-        return changedData;
     }
 
     async addToJson(data) {

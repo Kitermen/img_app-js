@@ -8,12 +8,12 @@ GET http://localhost:3000/api/photos/1711195846479 HTTP/1.1
 DELETE http://localhost:3000/api/photos/1711195846479 HTTP/1.1
 
 ### PATCH - update photo by id
-PATCH http://localhost:3000/api/photos HTTP/1.1
-content-type: application/json
+# PATCH http://localhost:3000/api/photos HTTP/1.1
+# content-type: application/json
 
-{
-  "id": 1716789002252
-}
+# {
+#   "id": 1716789002252
+# }
 
 ### POST - upload 1 photo
 POST http://localhost:3000/api/photos HTTP/1.1

@@ -47,19 +47,19 @@ const imageRouter = async(req, res)=>{
     }
 
     //      ein Photo nach ID aktualisieren
-    else if(req.url.match(/\/api\/photos/) && req.method == "PATCH"){
-        try{
-            const newData = await getRequestData(req);
-            let chgdData = await jsonController.editPhotoById(newData);
-            if(!chgdData) throw new Error(`not found not changed`);
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify(chgdData, null, 5));
-        }
-        catch(error){
-            res.writeHead(404, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ message: error.message }));
-        }
-    }
+    // else if(req.url.match(/\/api\/photos/) && req.method == "PATCH"){
+    //     try{
+    //         const newData = await getRequestData(req);
+    //         let chgdData = await jsonController.editPhotoById(newData);
+    //         if(!chgdData) throw new Error(`not found not changed`);
+    //         res.writeHead(200, { 'Content-Type': 'application/json' });
+    //         res.end(JSON.stringify(chgdData, null, 5));
+    //     }
+    //     catch(error){
+    //         res.writeHead(404, { 'Content-Type': 'application/json' });
+    //         res.end(JSON.stringify({ message: error.message }));
+    //     }
+    // }
 
     else if(req.url == "/api/photos" && req.method == "POST"){
         let newPhotoData = await fileController.submitFile(req);
