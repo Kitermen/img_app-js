@@ -1,12 +1,13 @@
-import FiltersController from "../controllers/FiltersController.js";
+import UsersController from "../controllers/UsersController.js";
 import getRequestData from "../getRequestData.js";
 
-const filtersController = new FiltersController;
+const usersController = new UsersController;
 
-const filtersRouter = async(req, res)=>{
-    if(req.url.match(/\/api\/filters\/metadata\/([a-z0-9]+)/) && req.method == "GET"){
-        const id = req.url.split("/")[4];
-        const metadata = await filtersController.getMetadata(id);
+const usersRouter = async(req, res)=>{
+    if(req.url.match(/\/api\/user\/register/) && req.method == "POST"){
+        const userData = await getRequestData(req);
+        const getValidLink = await usersController.register(userData);
+        return;
         if(!metadata) throw new Error("photo & its metadata not found");
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(metadata, null, 5));
@@ -37,6 +38,6 @@ const filtersRouter = async(req, res)=>{
     }
 }
 
-export default filtersRouter;
+export default usersRouter;
 
 

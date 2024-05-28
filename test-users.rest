@@ -1,0 +1,15 @@
+### register usera
+POST http://localhost:3000/api/user/register
+
+{"name":"name","lastName":"lastName","email":"name@email.pl","password":"password"}
+
+### user potwierdza rejestrację konta z użyciem tokena
+GET http://localhost:3000/api/user/confirm/<token>
+
+### logowanie z odesłaniem tokena po zalogowaniu - od tej pory każde żądanie zasobów ma zawierać token
+POST http://localhost:3000/api/user/login
+
+
+
+### get json all users - funkcja pomocnicza dla testów zarejestrowanych userów
+GET http://localhost:3000/api/user
