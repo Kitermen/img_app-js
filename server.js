@@ -2,6 +2,7 @@ import http from 'http';
 import imageRouter from './app/routing/imageRouter.js';
 import tagsRouter from "./app/routing/tagsRouter.js";
 import filtersRouter from "./app/routing/filtersRouter.js";
+import 'dotenv/config'
 
 const PORT = process.env.PORT || 3000;
 
@@ -21,5 +22,5 @@ http.createServer(async (req, res) => {
       await filtersRouter(req, res)
    }
 
-}).listen(PORT, () => console.log("Listening on 3000"));
+}).listen(process.env.APP_PORT, () => console.log("listen"))
 // lub .listen(3000, () => console.log("listen on 3000"))

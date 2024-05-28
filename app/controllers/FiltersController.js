@@ -111,13 +111,30 @@ export default class FiltersController{
     async getOriPhoto(id){
         return new Promise(async (resolve, reject) => {
             try{
-                id = parseInt(id);
+       
                 const photo = this.getPhoto(id);
-                console.log("PHOTO", photo);
-                console.log("DIRNSMR", this.dirname);
+            
                 const photoPath = join(this.dirname, `../../uploads/${photo.album}/${photo.url.split("\\")[2]}`);
-                console.log("PHOTOPATH", photoPath);
-                const photoFile = await fsPromises.readFile(photoPath, "base64");
+           
+                const photoFile = await fsPromises.readFile(photoPath);
+                resolve(photoFile);
+            }
+            catch(error){
+                reject("An error occurred:", error)
+            }
+        })
+    }
+
+    async getFilteredPhoto(id, filter){
+        return new Promise(async (resolve, reject) => {
+            try{
+                const photo = this.getPhoto(id);
+           
+                const filteredPhoto = photo.history.find(chg => chg.status == filter);
+
+                const photoPath = join(this.dirname, `../../uploads/${photo.album}/${filteredPhoto.url.split("\\")[2]}`);
+             
+                const photoFile = await fsPromises.readFile(photoPath);
                 resolve(photoFile);
             }
             catch(error){

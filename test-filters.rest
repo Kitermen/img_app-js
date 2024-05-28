@@ -10,4 +10,4 @@ PATCH http://localhost:3000/api/filters
 GET http://localhost:3000/api/filters/getimage/1716839671692
 
 ### pobranie pliku przefiltrowanego zdjęcia (nie jsona zdjęcia) wg id i nazwy filtra
-GET http://localhost:3000/api/getimage/1716793053286/filter/tint
+GET http://localhost:3000/api/filters/getimage/1716839671692/filter/resize

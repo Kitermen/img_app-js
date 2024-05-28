@@ -20,14 +20,21 @@ const filtersRouter = async(req, res)=>{
         res.end(JSON.stringify(filterPhoto, null, 5));
     }
 
+    else if(req.url.match(/\/api\/filters\/getimage\/([a-z0-9]+)\/filter\/([a-z0-9]+)/) && req.method == "GET"){
+        const id = req.url.split("/")[4];
+        const filter = req.url.split("/")[6];
+        let photo = await filtersController.getFilteredPhoto(id, filter);
+        res.setHeader('Content-Type', `image/jpeg`);
+        res.write(photo);
+        res.end();
+    }
+
     else if(req.url.match(/\/api\/filters\/getimage\/([a-z0-9]+)/) && req.method == "GET"){
         const id = req.url.split("/")[4];
         let photo = await filtersController.getOriPhoto(id);
         res.setHeader('Content-Type', `image/jpeg`);
         res.write(photo);
         res.end();
-        
-        
     }
 }
 
