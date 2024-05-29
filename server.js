@@ -29,5 +29,6 @@ http.createServer(async (req, res) => {
       await usersRouter(req, res)
    }
 
-}).listen(process.env.APP_PORT, () => console.log("SŁUCHAM???"))
+}).listen(process.env.APP_PORT, () => console.log("listen"))
+// lub .listen(PORT, () => console.log("Listening on 3000"));
 // lub .listen(3000, () => console.log("listen on 3000"))

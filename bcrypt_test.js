@@ -4,11 +4,11 @@ const { hash, compare } = bcryptjs;
 
 const pass = "moje tajne hasło"
 
-// const encryptPass = async (password) => {
+const encryptPass = async (password) => {
 
-//     let encryptedPassword = await hash(password, 10);
-//     console.log({ encryptedPassword: encryptedPassword });
-// }
+    let encryptedPassword = await hash(password, 10);
+    console.log({ encryptedPassword: encryptedPassword });
+}
 
 // await encryptPass(pass)
 
