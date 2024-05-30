@@ -11,7 +11,6 @@ export default class JsonController{
         this.currentPhotos = [...photosData];
         this.dirname = path.dirname(fileURLToPath(import.meta.url));
         this.jsonFile = join(this.dirname, "../data/photosData.json");
-
     }
 
     idFilter(id){

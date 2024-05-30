@@ -2,7 +2,6 @@ import jsonwebtoken from 'jsonwebtoken';
 import 'dotenv/config'
 const { sign, verify } = jsonwebtoken;
 
-let token = "";
 console.log(process.env.APP_PORT);
 const createToken = () => {
     let token = sign(
@@ -12,7 +11,7 @@ const createToken = () => {
         },
         process.env.APP_PORT,
         {
-            expiresIn: "30s" // "1m", "1d", "24h"
+            expiresIn: "30m" // "1m", "1d", "24h"
         }
     );
     console.log({ token: token });
@@ -32,8 +31,8 @@ const verifyToken = (token) => {
 
 
 const processToken = () => {
-    createToken()
-    verifyToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFhYTJAdGVzdC5jb20iLCJhbnlPdGhlckRhdGEiOiIxMjMiLCJpYXQiOjE3MTY4OTgyMTQsImV4cCI6MTcxNjg5ODI0NH0.X3lZQqpIxVsvCCXxUM7NjoXEOyXFdukSefwRNYoW2Vo")
+    //createToken()
+    verifyToken("eyJhbGciOiJIUzI1NiIsInR5cCId6IkpXVCJ9.eyJlbWFpbCI6ImFhYTJAdGVzdC5jb20iLCJhbnlPdGhlckRhdGEiOiIxMjMiLCJpYXQiOjE3MTcwOTIwNjcsImV4cCI6MTcxNzA5Mzg2N30.HqNMLTmYrHzPwQ9Hq33Wri4YazJx_KxsBHE795QDxEU")
 }
 
 processToken()
