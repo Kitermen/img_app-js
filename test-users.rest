@@ -9,7 +9,6 @@ GET http://localhost:3000/api/user/confirm/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
 
 ### logowanie z odesłaniem tokena po zalogowaniu - od tej pory każde żądanie zasobów ma zawierać token
 POST http://localhost:3000/api/user/login
-authorization: Bearer eyJhbG.eyJlbWFpbCII6MTY1MjI4NjgzN30.xkXNNho-MxECZsJXCIU
 
 {"email":"name@email.pl","password":"password"}
 

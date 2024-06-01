@@ -27,14 +27,6 @@ const usersRouter = async(req, res)=>{
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(token, null, 5));
     }
-
-    // else if(req.url.match(/\/api\/filters\/getimage\/([a-z0-9]+)/) && req.method == "GET"){
-    //     const id = req.url.split("/")[4];
-    //     let photo = await filtersController.getOriPhoto(id);
-    //     res.setHeader('Content-Type', `image/jpeg`);
-    //     res.write(photo);
-    //     res.end();
-    // }
 }
 
 export default usersRouter;

@@ -1,0 +1,17 @@
+### pobranie danych usera do wyświetlenia w profilu
+GET http://localhost:3000/api/profile HTTP/1.1
+content-type: application/json
+
+{"name":"name","lastName":"lastName","email":"name@email.pl","password":"password"}
+
+### aktualizacja danych usera w jego profilu
+PATCH http://localhost:3000/api/profile
+
+### wysłanie zdjęcia profilowego
+POST http://localhost:3000/api/profile
+authorization: Bearer eyJhbG.eyJlbWFpbCII6MTY1MjI4NjgzN30.xkXNNho-MxECZsJXCIU
+
+{"email":"name@email.pl","password":"password"}
+
+### wylogowanie
+GET http://localhost:3000/api/logout

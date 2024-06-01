@@ -30,6 +30,7 @@ export default class UsersController{
 
     async decrypt(userPass, encrypted){
         let decrypted = await compare(userPass, encrypted);
+        console.log("a");
         return decrypted;
     }
 
@@ -43,14 +44,14 @@ export default class UsersController{
             {
                 expiresIn: exp // "1m", "1d", "24h"
             }
-        );
+        )
         return token;
     }
 
     verifyToken(token){
         try{
             let decoded = verify(token, process.env.SECRET_KEY)
-            return decoded
+            return decoded;
         }
         catch(error){
             return { message: error.message };
@@ -126,9 +127,15 @@ export default class UsersController{
             try{
                 passes = JSON.parse(passes);
                 const user = this.usersData.find(obj => obj.email == passes.email && obj.confirmed == true)
-                console.log(user);
+
                 if(user){
-                    const encrypted = await decrypt(passes.password, user.password)
+                    const encrypted = await this.decrypt(passes.password, user.password);
+                    
+                    if(encrypted){
+                        let token = this.createToken(passes.email, passes.password, "5m");
+                        resolve(token);
+                    }
+                    else resolve("Podane hasło jest bbbłędne!");
                 }
                 else resolve("Konto z takim mailem nie istnieje bądź nie jest potwirdzone!");
                 
