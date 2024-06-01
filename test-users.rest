@@ -5,12 +5,13 @@ content-type: application/json
 {"name":"name","lastName":"lastName","email":"name@email.pl","password":"password"}
 
 ### user potwierdza rejestrację konta z użyciem tokena
-GET http://localhost:3000/api/user/confirm/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5hbWVAZW1haWwucGwiLCJhbnlPdGhlckRhdGEiOiJwYXNzd29yZCIsImlhdCI6MTcxNzEwNDIzNSwiZXhwIjoxNzE3MTA0MjM3fQ.3jqR_PwW-89F0_eKTadRwqQR8-F5shDHA0SJxlcRgYg
+GET http://localhost:3000/api/user/confirm/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5hbWVAZW1haWwucGwiLCJhbnlPdGhlckRhdGEiOiJwYXNzd29yZCIsImlhdCI6MTcxNzI2NTQzOCwiZXhwIjoxNzE3MjY1NzM4fQ.lkgJ3_JQVu8s3PSWQA4pbKJV3VDhlBJjlwveAVu8IFQ
 
 ### logowanie z odesłaniem tokena po zalogowaniu - od tej pory każde żądanie zasobów ma zawierać token
 POST http://localhost:3000/api/user/login
 authorization: Bearer eyJhbG.eyJlbWFpbCII6MTY1MjI4NjgzN30.xkXNNho-MxECZsJXCIU
 
+{"email":"name@email.pl","password":"password"}
 
 ### get json all users - funkcja pomocnicza dla testów zarejestrowanych userów
 GET http://localhost:3000/api/user

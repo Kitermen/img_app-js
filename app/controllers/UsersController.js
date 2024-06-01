@@ -50,11 +50,10 @@ export default class UsersController{
     verifyToken(token){
         try{
             let decoded = verify(token, process.env.SECRET_KEY)
-            return { decoded: decoded };
+            return decoded
         }
-        catch(prob){
-            //console.log({ message: prob.message });
-            return false;
+        catch(error){
+            return { message: error.message };
         }
     }
 
@@ -70,8 +69,10 @@ export default class UsersController{
                 }
                 let emailExists = this.usersData.some(obj => obj.email === data.email);
 
+                if(emailExists) resolve("Juzer z takim adresem email już istnieje")
+
                 if(!hasEmptyValue && !emailExists){
-                    let token = this.createToken(data.email, data.password, "2s");
+                    let token = this.createToken(data.email, data.password, "5m");
 
                     const encryptedPass = await this.encrypt(data.password);
 
@@ -99,17 +100,41 @@ export default class UsersController{
     async confirm(token){
         return new Promise(async (resolve, reject) => {
             try{ 
+                const a = 1
                 const decoded = this.verifyToken(token);
-                console.log("deco", decoded);
-                if(!decoded){
-                    resolve("blad tokenu przy confirm")
+                if(decoded.hasOwnProperty("message")){
+                    resolve("Problem z tokenem podczas potwierdzania konta!")
                 }
                 else{
-                    
+                    this.usersData.find(obj => {
+                        if(obj.email == decoded.email){
+                            obj.confirmed = true;
+                        }
+                    })
+                    await fsPromises.writeFile(this.jsonFile, JSON.stringify(this.usersData), "utf-8");
+                    resolve("Konto użytkownika potwierdzone!")
                 }
             }
             catch(error){
                 reject("An error occurred - confirm:", error);
+            }
+        })
+    }
+
+    async login(passes){
+        return new Promise(async (resolve, reject) => {
+            try{
+                passes = JSON.parse(passes);
+                const user = this.usersData.find(obj => obj.email == passes.email && obj.confirmed == true)
+                console.log(user);
+                if(user){
+                    const encrypted = await decrypt(passes.password, user.password)
+                }
+                else resolve("Konto z takim mailem nie istnieje bądź nie jest potwirdzone!");
+                
+            }
+            catch(error){
+                reject("An error occurred - login:", error);
             }
         })
     }

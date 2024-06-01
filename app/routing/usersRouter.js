@@ -15,20 +15,18 @@ const usersRouter = async(req, res)=>{
     else if(req.url.match(/\/api\/user\/confirm\/eyJ[A-Za-z0-9-_]+\.eyJ[A-Za-z0-9-_]+\.[A-Za-z0-9-_.+/]*/) && req.method == "GET"){
         const token = req.url.split("/")[4];
         //console.log(token);
-        const filterPhoto = await usersController.confirm(token);
-        return;
+        const confirmRes = await usersController.confirm(token);
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify(filterPhoto, null, 5));
+        res.end(JSON.stringify(confirmRes, null, 5));
     }
 
-    // else if(req.url.match(/\/api\/filters\/getimage\/([a-z0-9]+)\/filter\/([a-z0-9]+)/) && req.method == "GET"){
-    //     const id = req.url.split("/")[4];
-    //     const filter = req.url.split("/")[6];
-    //     let photo = await filtersController.getFilteredPhoto(id, filter);
-    //     res.setHeader('Content-Type', `image/jpeg`);
-    //     res.write(photo);
-    //     res.end();
-    // }
+    else if(req.url.match(/\/api\/user\/login/) && req.method == "POST"){
+        const loginData = await getRequestData(req);
+        const token = await usersController.login(loginData);
+        res.setHeader('Authorization', 'Bearer '+ token);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(token, null, 5));
+    }
 
     // else if(req.url.match(/\/api\/filters\/getimage\/([a-z0-9]+)/) && req.method == "GET"){
     //     const id = req.url.split("/")[4];

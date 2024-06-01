@@ -19,4 +19,4 @@ const decryptPass = async (userpass, encrypted) => {
 
 }
 
-// await decryptPass(pass, "$2a$10$33UPprIq.fdYVVZG87ydRuIQUsdS7SOMgsQn3ES3ySYPfiS5Chnau")
+await decryptPass(pass, "$2a$10$33UPprIq.fdYVVZG87ydRuIQUsdS7SOMgsQn3ES3ySYPfiS5Chnau")

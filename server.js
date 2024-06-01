@@ -5,7 +5,7 @@ import filtersRouter from "./app/routing/filtersRouter.js";
 import usersRouter from "./app/routing/usersRouter.js";
 import 'dotenv/config'
 
-const PORT = process.env.PORT || 3000;
+//const PORT = process.env.PORT || 3000;
 
 http.createServer(async (req, res) => {
 
