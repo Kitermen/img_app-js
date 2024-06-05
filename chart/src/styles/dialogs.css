@@ -1,0 +1,15 @@
+dialog.change-dialog{
+    background-color: bisque;
+    border-radius: 10px;
+}
+
+.change-dialog-cont{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+dialog.change-dialog input[type="number"]{
+    text-align: center;
+    font-size: 22px;
+}
