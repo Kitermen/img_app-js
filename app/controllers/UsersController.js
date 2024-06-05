@@ -73,7 +73,7 @@ export default class UsersController{
                 if(emailExists) resolve("Juzer z takim adresem email już istnieje")
 
                 if(!hasEmptyValue && !emailExists){
-                    let token = this.createToken(data.email, data.password, "5m");
+                    let token = this.createToken(data.email, data.password, "15m");
 
                     const encryptedPass = await this.encrypt(data.password);
 
@@ -101,7 +101,6 @@ export default class UsersController{
     async confirm(token){
         return new Promise(async (resolve, reject) => {
             try{ 
-                const a = 1
                 const decoded = this.verifyToken(token);
                 if(decoded.hasOwnProperty("message")){
                     resolve("Problem z tokenem podczas potwierdzania konta!")

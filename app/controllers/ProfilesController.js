@@ -1,0 +1,87 @@
+import usersData from "../data/usersData.json" assert { type: 'json' };
+import { promises as fsPromises } from "fs";
+import { join } from "path";
+//__dirname in ES6
+import path from "path";
+import { fileURLToPath } from 'url';
+
+import bcryptjs from 'bcryptjs';
+const { hash, compare } = bcryptjs;
+
+import jsonwebtoken from 'jsonwebtoken';
+const { sign, verify } = jsonwebtoken;
+
+import 'dotenv/config'
+
+
+
+export default class ProfilesController{
+    constructor(){
+        this.usersData = [...usersData];
+        this.dirname = path.dirname(fileURLToPath(import.meta.url));
+        this.jsonFile = join(this.dirname, "../data/usersData.json");
+        this.unConfirmed = undefined;
+    }
+
+    async encrypt(password){
+        let encryptedPassword = await hash(password, 10);
+        return encryptedPassword;
+    }
+
+    async decrypt(userPass, encrypted){
+        let decrypted = await compare(userPass, encrypted);
+        return decrypted;
+    }
+
+    createToken(email, pass, exp){
+        let token = sign(
+            {
+                email: email,
+                anyOtherData: pass
+            },
+            process.env.SECRET_KEY,
+            {
+                expiresIn: exp // "1m", "1d", "24h"
+            }
+        )
+        return token;
+    }
+
+    verifyToken(token){
+        try{
+            let decoded = verify(token, process.env.SECRET_KEY)
+            return decoded;
+        }
+        catch(error){
+            return { message: error.message };
+        }
+    }
+
+    async getData(decoded){
+        return new Promise(async (resolve, reject) => {
+            try{
+                console.log(decoded);
+                const user = this.usersData.find(obj => obj.email == decoded.email)
+                const profileData = {
+                    "name": user.name,
+                    "lastname": user.lastName,
+                    "email": user.email
+                }
+                resolve(profileData);
+            }
+            catch(error){
+                reject("An error occurred - get(Profile)Data:", error);
+            }
+        })
+    }
+
+    async confirm(token){
+        
+    }
+
+    async login(passes){
+        
+    }
+}
+
+//"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5hbWVAZW1haWwucGwiLCJhbnlPdGhlckRhdGEiOiJwYXNzd29yZCIsImlhdCI6MTcxNzA4NjQxMywiZXhwIjoxNzE3MDg2NDczfQ.bAVF7pkwdhZHL1blUKMDV2qTR9uxgdKuPt21v7ooIBA"
