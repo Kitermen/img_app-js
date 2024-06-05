@@ -70,10 +70,10 @@ export default class UsersController{
                 }
                 let emailExists = this.usersData.some(obj => obj.email === data.email);
 
-                if(emailExists) resolve("Juzer z takim adresem email już istnieje")
+                if(emailExists) resolve("User z takim adresem email już istnieje")
 
                 if(!hasEmptyValue && !emailExists){
-                    let token = this.createToken(data.email, data.password, "15m");
+                    let token = this.createToken(data.email, data.password, "60m");
 
                     const encryptedPass = await this.encrypt(data.password);
 

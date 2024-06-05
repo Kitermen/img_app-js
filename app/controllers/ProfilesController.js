@@ -5,8 +5,8 @@ import { join } from "path";
 import path from "path";
 import { fileURLToPath } from 'url';
 
-import bcryptjs from 'bcryptjs';
-const { hash, compare } = bcryptjs;
+// import bcryptjs from 'bcryptjs';
+// const { hash, compare } = bcryptjs;
 
 import jsonwebtoken from 'jsonwebtoken';
 const { sign, verify } = jsonwebtoken;
@@ -75,8 +75,27 @@ export default class ProfilesController{
         })
     }
 
-    async confirm(token){
-        
+    async updateData(newData, decoded){
+        return new Promise(async (resolve, reject) => {
+            try{
+                newData = JSON.parse(newData);
+                this.usersData.find(obj => {
+                    if(obj.email == decoded.email){
+                        obj.name = newData.name;
+                        obj.lastName = newData.lastName;
+                    }
+                })
+                
+                if(!this.usersData.length) resolve("Nie znaleziono użytkownika w bazie")
+                else{
+                    await fsPromises.writeFile(this.jsonFile, JSON.stringify(this.usersData), "utf-8");
+                    resolve("Dane zostały zaaktualizowane!")
+                }
+            }
+            catch(error){
+                reject("An error occurred - update(Profile)Data:", error);
+            }
+        })
     }
 
     async login(passes){

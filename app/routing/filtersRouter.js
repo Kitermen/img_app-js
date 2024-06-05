@@ -7,7 +7,7 @@ const filtersRouter = async(req, res)=>{
     if(req.url.match(/\/api\/filters\/metadata\/([a-z0-9]+)/) && req.method == "GET"){
         const id = req.url.split("/")[4];
         const metadata = await filtersController.getMetadata(id);
-        if(!metadata) throw new Error("photo & its metadata not found");
+        if(!metadata) throw new Error("Nie znaleziono zdjęcia & jego ścieżki");
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(metadata, null, 5));
     }

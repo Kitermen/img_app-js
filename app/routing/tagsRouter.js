@@ -50,7 +50,7 @@ const tagRouter = async(req, res)=>{
         try{
             const name = await getRequestData(req);
             let addedTag = await tagsController.addTag(name);
-            if(!addedTag) throw new Error("a tag with this name already exists");
+            if(!addedTag) throw new Error("Tag z podaną nazwą już istnieje!");
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify(addedTag, null, 5));
         }
@@ -64,7 +64,7 @@ const tagRouter = async(req, res)=>{
         try{
             const id = await getRequestData(req);
             let thisTag = await tagsController.updateByTags(id);
-            if(!thisTag) throw new Error(`could not update such a photo with many tags`);
+            if(!thisTag) throw new Error(`Nie udało się zaaktualizować zdjęcia kilkoma tagmi`);
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify(thisTag, null, 5));
         }

@@ -67,7 +67,6 @@ http.createServer(async (req, res) => {
          }
          else{
             console.log("czuje sie tak staro");
-            return
          }
       }
    

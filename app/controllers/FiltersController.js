@@ -32,7 +32,7 @@ export default class FiltersController{
                     resolve(meta);
                 }
                 else{
-                    resolve("photo & its url not found");
+                    resolve("Nie znaleziono zdjęcia & jego ścieżki");
                 }
             }
             catch(error){
@@ -98,7 +98,7 @@ export default class FiltersController{
                     resolve(meta);
                 }
                 else{
-                    resolve("filter not found")
+                    resolve("Błędna nazwa filtra")
                 }
             }
             catch(error){

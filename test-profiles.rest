@@ -3,13 +3,29 @@ GET http://localhost:3000/api/profiles HTTP/1.1
 authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5hbWVAZW1haWwucGwiLCJhbnlPdGhlckRhdGEiOiJwYXNzd29yZCIsImlhdCI6MTcxNzYyMTUwMiwiZXhwIjoxNzE3NjIyNDAyfQ.dPxKa1MBGKE_9si6qORY2_v_zHpQ9S8Y3JJAnkPn9QY
 
 ### aktualizacja danych usera w jego profilu
-PATCH http://localhost:3000/api/profiles
+PATCH http://localhost:3000/api/profiles HTTP/1.1
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5hbWVAZW1haWwucGwiLCJhbnlPdGhlckRhdGEiOiJwYXNzd29yZCIsImlhdCI6MTcxNzYyODM2MSwiZXhwIjoxNzE3NjMxOTYxfQ.LxIetK2b00X_SoipnX8IZQFV5gKtiZbNDVhy0bpdlzM
+content-type: application/json
+
+{"name":"tytus","lastName":"bomba"}
 
 ### wysłanie zdjęcia profilowego
-POST http://localhost:3000/api/profiles
+POST http://localhost:3000/api/profiles HTTP/1.1
 authorization: Bearer eyJhbG.eyJlbWFpbCII6MTY1MjI4NjgzN30.xkXNNho-MxECZsJXCIU
+Content-Type: multipart/form-data; boundary=----FormBoundary1234
 
-{"email":"name@email.pl","password":"password"}
+------FormBoundary1234
+Content-Disposition: form-data; name="file"; filename="input.jpg"
+Content-Type: image/jpeg
+
+< ./input.jpg
+
+------FormBoundary1234
+Content-Disposition: form-data; name="album"
+Content-Type: text/plain
+
+user_album
+------FormBoundary1234
 
 ### wylogowanie
 GET http://localhost:3000/api/profiles/logout
