@@ -1,5 +1,7 @@
 import usersData from "../data/usersData.json" assert { type: 'json' };
-import { promises as fsPromises } from "fs";
+import expTokens from "../data/expiredTokens.json" assert { type: 'json' };
+import formidable from "formidable";
+import { existsSync, promises as fsPromises } from "fs";
 import { join } from "path";
 //__dirname in ES6
 import path from "path";
@@ -18,8 +20,10 @@ import 'dotenv/config'
 export default class ProfilesController{
     constructor(){
         this.usersData = [...usersData];
+        this.expTokens = [...expTokens];
         this.dirname = path.dirname(fileURLToPath(import.meta.url));
-        this.jsonFile = join(this.dirname, "../data/usersData.json");
+        this.usersFile = join(this.dirname, "../data/usersData.json");
+        this.tokensFile = join(this.dirname, "../data/expiredTokens.json");
         this.unConfirmed = undefined;
     }
 
@@ -88,7 +92,7 @@ export default class ProfilesController{
                 
                 if(!this.usersData.length) resolve("Nie znaleziono użytkownika w bazie")
                 else{
-                    await fsPromises.writeFile(this.jsonFile, JSON.stringify(this.usersData), "utf-8");
+                    await fsPromises.writeFile(this.usersFile, JSON.stringify(this.usersData), "utf-8");
                     resolve("Dane zostały zaaktualizowane!")
                 }
             }
@@ -98,8 +102,55 @@ export default class ProfilesController{
         })
     }
 
-    async login(passes){
-        
+    async profilePhoto(req){
+        return new Promise((resolve, reject) => {
+            try{
+                let form = formidable({});
+                form.uploadDir = "./uploads/";
+                form.keepExtensions = true;
+                form.parse(req, async (err, fields, files) => {
+                    if(err)resolve(err.message);
+                    else{
+                        let setFolderName = fields.album.length == 0 ? "unknown" : fields.album;
+                        let folderPath = join("./uploads/", setFolderName);
+                        if(!existsSync(folderPath)){
+                            await fsPromises.mkdir(folderPath);
+                        }
+                        
+                        let fileName = files.file.path.split("\\");
+
+                        let fullFilePath = join("./uploads", setFolderName, fileName[1]);
+                        await fsPromises.rename(files.file.path, fullFilePath);
+                    
+                        let fileData = {
+                            fields: fields,
+                            filePath: fullFilePath,
+                            originalName: files.file.name,
+                            lastModifiedDate: files.file.lastModifiedDate,
+                        }
+
+                        resolve(fileData);
+                    }
+                })
+            }
+            catch(error){
+                reject("An error occurred - updateProfilePic:", error);
+            }
+        })
+    }
+
+    async logout(token){
+        return new Promise((resolve, reject) => {
+            try{
+                console.log(token);
+                this.expTokens.push(token);                                                                                                           
+                fsPromises.writeFile(this.tokensFile, JSON.stringify(this.expTokens), "utf-8");
+                resolve(`Token: ${token} został dezaktywowany`);
+            }                                   
+            catch(error){
+                reject("An error occurred - logout:", error);
+            }
+        })
     }
 }
 

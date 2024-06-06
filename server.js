@@ -63,7 +63,7 @@ http.createServer(async (req, res) => {
          let decoded = verifyToken(token);
          //console.log("DECO", decoded);
          if(!decoded.hasOwnProperty("message")){
-            await profilesRouter(req, res, decoded)
+            await profilesRouter(req, res, decoded, token)
          }
          else{
             console.log("czuje sie tak staro");
