@@ -31,6 +31,7 @@ import InputText from 'primevue/inputtext';
 import FloatLabel from 'primevue/floatlabel';
 import Password from 'primevue/password';
 import { post } from '@/api';
+import { useCounterStore } from '@/store/store';
 
 export default {
     data() {
@@ -74,6 +75,8 @@ export default {
 
             if(response.token){
                 this.token = response.token;
+                useCounterStore.token = this.token;
+                this.$router.push('/register');
             }
             else{
                 this.failure = response
